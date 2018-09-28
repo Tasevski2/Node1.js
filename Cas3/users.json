@@ -1,0 +1,31 @@
+[	
+	{
+		"name" : "Pero" , 
+		"lastname" : "Perovski",
+		"email" : "pero5@yahoo.com",
+		"password" : "1234"	
+	},
+
+	{
+		"name" : "Viktor" , 
+		"lastname" : "Tasevski",
+		"email" : "viktor-tasevski@hotmail.com",
+		"password" : "ne_e_bitno"	
+	},
+
+
+	{
+		"name" : "Epic" , 
+		"lastname" : "Games",
+		"email" : "mousemkd@yahoo.com",
+		"password" : "kompjuter"	
+	},
+
+	{
+		"name" : "Gorjan" , 
+		"lastname" : "Petric",
+		"email" : "goki@yahoo.com",
+		"password" : "blabla"	
+	}
+
+]
