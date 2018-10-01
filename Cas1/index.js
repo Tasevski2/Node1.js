@@ -2,30 +2,19 @@ var express = require("express");
 var auth = require ("./handlers/auth");
 var root = require ("./handlers/root");
 var users = require ("./handlers/users");
+var mongo = require("./db/mongo");
 
-var mongoose = require("mongoose");
 var app = express();
-const options = {
-  useNewUrlParser: true
-}
-mongoose.connect("mongodb://127.0.0.1:27017/semos1", options)
-.then((conn)=>
-{
-	console.log(conn);
-})
-.catch((err)=>
-{
-	console.log(err);
-})
 
-console.log(db);
+mongo.Init();
 
-app.get("/",root);
+app.get("/", root);
 
-app.post("/login" , auth.login);
+app.post("/login", auth.login);
 
-app.get("/logout" , auth.logout);
+app.get("/logout", auth.logout);
 
-app.get("/users" , users.getAllUsers);
+app.get("/users", users.getAllUsers);
+app.get("/users/name/:name", users.getUsersByName);
 
 app.listen(8080);
