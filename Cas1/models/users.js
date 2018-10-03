@@ -26,14 +26,51 @@ var getAllUsers = (cb) => {
 
 var getUsersByName = (name, cb) =>{
 	Users.find({firstname: name}, (err ,data) =>{
-		if(err)
+		if(err) {
 			return cb(err, null);
-		else
+		} else {
 			return cb(null, data);
-	})
+		}
+	});
 };
+
+var createUser = (userData, cb) => {
+	var user = new Users(userData);
+	user.save((err, data) => {
+		if(err) {
+			return cb(err);
+		} else {
+			return cb(null);
+		}
+	});
+};
+
+var deleteUser = (id, cb) => {
+
+	Users.deleteOne({_id: id}, (err) =>
+	{
+		if(err) {
+			return cb(err);	
+		} else {
+			return cb(null);
+		}
+	});
+};
+
+var updateById = (id, data, cb) => {
+	Users.updateOne({_id: id}, data, (err) => {
+		if (err) {
+			return cb(err)
+		} else {
+			return cb(data);
+		}
+	});
+}
 
 module.exports = {
 	getAllUsers,
-	getUsersByName
+	getUsersByName,
+	createUser,
+	deleteUser,
+	updateById
 };
