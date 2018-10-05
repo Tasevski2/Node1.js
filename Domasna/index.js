@@ -1,21 +1,21 @@
 var express = require("express");
 var app = express();
-var bodyPar = require("body-parser");
+var bodyParser = require("body-parser");
 var mongo = require("./db/mongo");
 var users = require("./handlers/users");
+app.use(bodyParser.json());
 
 
-
-var mongo.Init();
+mongo.Init();
 
 app.get("/users", users.getAllUsers);
 
 app.post("/users/create", users.createUser);
 
-app.delete("/users/delete/country/:country", users.deleteUserByCountry);
+app.delete("/users/delete/id/:id", users.deleteUserById);
 
 
-app.get("/users/university/:university", users.getUserByUniversity);
+app.get("/users/school/:school", users.getUserBySchool);
 
 app.put("/users/update/id/:id", users.updateById);
 

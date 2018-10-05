@@ -1,4 +1,4 @@
-var users = require("../models/handlers");
+var users = require("../models/users");
 
 var getAllUsers = (req,res) => {
 	users.getAllUsers((err, data) => {
@@ -12,31 +12,31 @@ var getAllUsers = (req,res) => {
 };
 
 var createUser = (req, res) => {
-	users.createUser(req.body, (err, data) => {
+	users.createUser(req.body, (err) => {
 		if(err) {
 			res.send(err);
 		}
 		else {
-			res.send(data);
+			res.send(201,"OK");
 		}
 	});
 };
 
-var deleteUserByCountry = (req, res) => {
-	var country = req.params.country;
-	users.deleteUserByCountry(country, (err, data) => {
+var deleteCvById = (req, res) => {
+	var id = req.params.last_name;
+	users.deleteUserById(id, (err) => {
 		if(err) {
 			res.send(err);
 		}
 		else {
-			res.send(data);
+			res.send(204,"deleted");
 		}
 	});
 };
 
-var getUserByUniversity = (req, res) => {
-	var university = req.params.university;
-	users.getUserByUniversity(university, (err, data) => {
+var getCvBySchool = (req, res) => {
+	var school = req.params.school;
+	users.getCvBySchool(school, (err, data) => {
 		if(err) {
 			res.send(err);
 		}
@@ -49,7 +49,7 @@ var getUserByUniversity = (req, res) => {
 var updateById = (req, res) => {
 	var id = req.params.id;
 	var userData = req.body;
-	users.updateById(id, userData, (err, data) => {
+	users.updateById(id, userData, (err) => {
 		if(err) {
 			res.send(500, err);
 		}
@@ -60,9 +60,9 @@ var updateById = (req, res) => {
 };
 
 module.exports = {
-	getAllUsers,
-	createUser,
-	deleteUserByCountry,
-	getUserByUniversity,
+	getAllCvs,
+	createCv,
+	deleteCvById,
+	getCvBySchool,
 	updateById
 };

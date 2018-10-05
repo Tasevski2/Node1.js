@@ -1,31 +1,30 @@
 var mongoose = require("mongoose");
 
-
 var Users = mongoose.model(
-	"users_domasna"
+	"cvs",
 	new mongoose.Schema({
 		"firts_name": String,
 		"last_name": String,
-		"birth_date": Number,
+		"birth_date": Date,
 		"email": String,
-		"phone": Number,
+		"phone": String,
 		"current_residence": {
 			"country": String,
 			"city": String,
-			"zip_code":
+			"zip_code": Number
 		},
-		"education": [{
-			"university_name": String,
+		"education": {
+			"school_name": String,
 			"level": String,
 			"degree": String,
-			"start_at": Number,
-			"finish_at": Number
-		}],
+			"start_at": Date,
+			"finish_at": Date
+		},
 		"work_experience": {
 			"job_title": String,
 			"company_name": String,
-			"start_at": Number,
-			"finish_at": Number
+			"start_at": Date,
+			"finish_at": Date
 		},
 		"skills_interstes": {
 			"main_skills": String,
@@ -34,22 +33,21 @@ var Users = mongoose.model(
 			"interests": String
 		}
 	}) 
+);
 
-	);
 
-
-var getAllUsers = (cb) => {
+var getAllCvs = (cb) => {
 	Users.find({}, (err, data) => {
 		if(err) {
-			return cb(err);
+			return cb(err, null);
 		}
 		else {
-			return cb(data);
+			return cb(null, data);
 		}
 	});
 };
 
-var createUser = (userData, cb) => {
+var createCv = (userData, cb) => {
 	var user= new Users(userData);
 	user.save((err, data) => {
 		if(err) {
@@ -61,25 +59,23 @@ var createUser = (userData, cb) => {
 	});
 };
 
-var deleteUserByCountry = (country_name, cb) => {
-	Users.deleteOne({current_residence: {country: country_name}}, (err) => {
+var deleteCvById = (id, cb) => {
+	Users.deleteOne({_id: id}, (err) => {
 		if(err) {
-			return cb(err);
-		}
-		else {
+			return cb(err)
+		} else {
 			return cb(null);
 		}
 	});
-};
+}
 
-
-var getUserByUniversity = (university, cb) => {
-	Users.find({university_name: university}, (err,data) => {
+var getCvBySchool = (school, cb) => {
+	Users.find({education.school_name: school}, (err,data) => {
 		if(err) {
-			return cb(err);
+			return cb(err, null);
 		}
 		else {
-			return cb(data);
+			return cb(null, data);
 		}
 	});
 };
@@ -96,9 +92,9 @@ var updateById = (id, data, cb) => {
 };
 
 module.exports = {
-	getAllUsers,
-	crateUser,
-	deleteUserByCountry,
-	getUserByUniversity,
+	getAllCvs,
+	createCv,
+	deleteCvById,
+	getCvBySchool,
 	updateById
 };
