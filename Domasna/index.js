@@ -2,24 +2,22 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongo = require("./db/mongo");
-var users = require("./handlers/users");
+var cvs = require("./handlers/cvs");
 app.use(bodyParser.json());
 
 
 mongo.Init();
 
-app.get("/users", users.getAllUsers);
+app.get("/cvs", cvs.getAllCvs);
 
-app.post("/users/create", users.createUser);
+app.post("/cvs/create", cvs.createCv);
 
-app.delete("/users/delete/id/:id", users.deleteUserById);
-
-
-app.get("/users/school/:school", users.getUserBySchool);
-
-app.put("/users/update/id/:id", users.updateById);
+app.delete("/cvs/delete/id/:id", cvs.deleteCvById);
 
 
+app.get("/cvs/school/:school", cvs.getCvBySchool);
+
+app.put("/cvs/update/id/:id", cvs.updateById);
 
 
 
@@ -27,4 +25,6 @@ app.put("/users/update/id/:id", users.updateById);
 
 
 
-app.listen(8080);
+
+
+app.listen(80);
