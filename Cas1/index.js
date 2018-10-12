@@ -6,6 +6,14 @@ var mongo = require("./db/mongo");
 var bodyParser = require("body-parser");
 var app = express();
 app.use(bodyParser.json());
+var jwt = require("express-jwt");
+
+app.use(jwt ({
+	secret: "pero_e_citer"
+	}).unless ({
+		path: ["/login"]
+	})
+);
 
 mongo.Init();
 
@@ -23,4 +31,12 @@ app.put("/delete/user/id/:id", users.updateById);
 
 app.post("/create/user", users.createUser);
 
-app.listen(8080);
+
+
+app.use(function(err, req, res, next) {
+	if(err.name === "UnauthorizedError") {
+		res.send(401, "Invaild token");
+	}
+});
+
+app.listen(80);

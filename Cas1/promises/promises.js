@@ -74,49 +74,66 @@
 
 
 
-var condition = true;
+// var condition = true;
 
-var getAllUsers = () =>
-{
-	return new Promise((resolve , reject)=>
-	{
-		var users = 
-		[
-			"janko",
-			"petko" ,
-			"stanko" ,
-			"stojanko"
-		];
-		if(condition)
-		{
-			return resolve(users);
+// var getAllUsers = () =>
+// {
+// 	return new Promise((resolve , reject)=>
+// 	{
+// 		var users = 
+// 		[
+// 			"janko",
+// 			"petko" ,
+// 			"stanko" ,
+// 			"stojanko"
+// 		];
+// 		if(condition)
+// 		{
+// 			return resolve(users);
+// 		}
+// 		else
+// 			return reject("no users found");
+// 	});
+// };
+
+// getAllUsers()
+// .then((u)=>
+// {
+// 	console.log(u);
+// })
+// .catch((err)=>
+// {
+// 	console.error(err);
+// });	
+
+
+
+
+
+
+
+
+
+
+
+var Hrana = (jadenje) => {
+	 return new Promise((resolve, reject) => {
+		if(jadenje.length % 2 == 0) {
+			return resolve(jadenje);
 		}
-		else
-			return reject("no users found");
+		else {
+			return reject(jadenje);
+		}
 	});
 };
-
-getAllUsers()
-.then((u)=>
-{
-	console.log(u);
+var a = "pitar";
+Hrana(a)
+.then((odg) => {
+	console.log(odg + " e ubava");
 })
-.catch((err)=>
-{
-	console.error(err);
-});	
-
-
-
-
-
-
-
-
-
-
-
-
+.catch((odg) => {
+	console.log(odg + " ne e ubava");
+})
 
 
 

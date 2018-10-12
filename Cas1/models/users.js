@@ -60,7 +60,7 @@ var deleteUser = (id, cb) => {
 var updateById = (id, data, cb) => {
 	Users.updateOne({_id: id}, data, (err) => {
 		if (err) {
-			return cb(err)
+			return cb(err);
 		} else {
 			return cb(data);
 		}
