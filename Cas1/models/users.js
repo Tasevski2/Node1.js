@@ -6,6 +6,8 @@ var Users = mongoose.model(
 		"firstname" : String, 
 	    "lastname" : String, 
 	    "email" : String, 
+	    "password": String,
+	    "role": String,
 	    "location" : {
 	        "country" : String, 
 	        "city" : String, 
@@ -15,7 +17,7 @@ var Users = mongoose.model(
 );
 
 var getAllUsers = (cb) => {
-	Users.find({}, (err, data) => {
+	Users.find({}, {passoword: -1}, (err, data) => {
 		if(err) {
 			return cb(err, null)
 		} else {
@@ -26,6 +28,16 @@ var getAllUsers = (cb) => {
 
 var getUsersByName = (name, cb) =>{
 	Users.find({firstname: name}, (err ,data) =>{
+		if(err) {
+			return cb(err, null);
+		} else {
+			return cb(null, data);
+		}
+	});
+};
+
+var getUserByEmail = (email, cb) => {
+	Users.findOne({email: email}, {passoword: 1, role: 1, firstname: 1, lastname: 1, email: 1}, (err, data) => {
 		if(err) {
 			return cb(err, null);
 		} else {
@@ -72,5 +84,6 @@ module.exports = {
 	getUsersByName,
 	createUser,
 	deleteUser,
-	updateById
+	updateById,
+	getUserByEmail
 };

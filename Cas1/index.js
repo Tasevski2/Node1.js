@@ -7,11 +7,15 @@ var bodyParser = require("body-parser");
 var app = express();
 app.use(bodyParser.json());
 var jwt = require("express-jwt");
+var bcrypt = require("bcryptjs");
 
 app.use(jwt ({
 	secret: "pero_e_citer"
 	}).unless ({
-		path: ["/login"]
+		path: ["/login", "/create/user"
+				// {url: "/login", methods: {"POST"}} vo slucaj ako imame ista 	
+				// ruta ali razlicen metod
+		]
 	})
 );
 

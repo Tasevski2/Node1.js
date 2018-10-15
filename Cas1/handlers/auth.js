@@ -1,19 +1,30 @@
 var jwt = require("jsonwebtoken");
+var users = require("../models/users");
+var bcrypt = require("bcryptjs");
 
 var login = (req, res)=>
 {
-	if(req.body.email == "admin@admin.com" && req.body.password == "admin") {
-		var userData = {
-			uid: 1234567890,
-			email: "admin@admin.com",
-			name: "Pero Perovski",
-			avatar: "slika.jpg"
+	users.getUserByEmail(req.body.email, (err, userData) => {
+		bcrypt.compare(req.body.password, userData.password)
+		.then((valid) => { 
+			if (valid) {
+				var ud = {
+			uid: userData._id,
+			email: userData.email,
+			name: userData.name,
+			role: userData.role
 		};
-		var token = jwt.sign(userData, "pero_e_citer");
-		return res.send(200, token);
-	} else {
-		res.send(404, "Invaild username or password");
-	}
+		var token = jwt.sign(ud, "pero_e_citer");
+		return res.send(token);
+			} else {
+				return res.send("Unauthorized");
+			}
+		}).catch((err) => {
+			return res.send(err);
+		})
+			
+	});			
+	
 };
 
 var logout = (req , res)=>
