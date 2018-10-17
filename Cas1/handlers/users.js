@@ -2,29 +2,20 @@ var users = require("../models/users");
 var bcrypt = require("bcryptjs");
 
 
-var getAllUsers = (req , res)=>
-{
-	users.getAllUsers((err , data)=>
-	{
+var getAllUsers = (req , res) => {
+	console.log("get all users")
+	users.getAllUsers((err, data) => {
 		if(err) {
 			res.send(err);
 		} else {
 			res.send(data);
 		}
 	});
-	
 };
-
-
-var getUserByName = (req ,res) => {
-	var name = req.params.name;
-	res.send(name);
-}
 
 var getUsersByName = (req, res) => {
 	var name = req.params.name;
-	users.getUsersByName(name, (err, data) => 
-	{
+	users.getUsersByName(name, (err, data) => {
 		if(err) {
 			res.send(err);
 		} else {
@@ -33,34 +24,47 @@ var getUsersByName = (req, res) => {
 	});
 }
 
+var getUsersByEmail = (req, res) => {
+	users.getUsersByEmail(req.body.email, (err, data) => {
+		if(err) {
+			res.send(err);
+		} else {
+			res.send(data);
+		}
+	});
+}
+
+
 var createUser = (req, res) => {
+	 
+	
 	var valid = req.body.firstname != "" && req.body.firstname != ""
 	 && req.body.lastname != "" && req.body.lastname != ""
 	 && req.body.email != "" && req.body.email != ""
 	 && req.body.password.length > 6 && req.body.password != undefined && req.body.password != "";
 	
-	if(valid)
-	{	
+	 
+	if(valid && req.body.email != users.getUsersByEmail) {
+		console.log("Do tuka");	
 		bcrypt.hash(req.body.password, 10, (err, hash) => {
 			var userData = req.body
 			userData.password = hash;
 			userData.role = "user";
-			users.createUser(userData, (err) =>
-	{
-		if(err) {
-			res.send(err);
-		} else {
-			res.send(201, "Ok");
-		}
-	})
-		} )
-		
+			users.createUser(userData, (err) => {
+				if(err) {
+					res.send(err);
+				} else {
+					console.log("Vleguva")
+					res.send(201, "Ok");
+				}
+			})
+		})	
 	}
 	else {
 		res.send(400, "Bad request");
-	}
+	};
 	
-}
+};
 
 var deleteUser = (req, res) => {
 	var id= req.params.id;
@@ -86,11 +90,11 @@ var updateById = (req,res) =>{
 }
 module.exports = {
 	getAllUsers,
-	getUserByName,
 	getUsersByName,
 	createUser,
 	deleteUser,
-	updateById
+	updateById,
+	getUsersByEmail
 
 };
 

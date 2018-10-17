@@ -17,10 +17,13 @@ var Users = mongoose.model(
 );
 
 var getAllUsers = (cb) => {
-	Users.find({}, {passoword: -1}, (err, data) => {
+	console.log("get all users model")
+	Users.find({}, {password: 0}, (err, data) => {
+		console.log("get all users db result")
 		if(err) {
 			return cb(err, null)
 		} else {
+			console.log(data);
 			return cb(null , data);
 		}
 	});
@@ -37,7 +40,17 @@ var getUsersByName = (name, cb) =>{
 };
 
 var getUserByEmail = (email, cb) => {
-	Users.findOne({email: email}, {passoword: 1, role: 1, firstname: 1, lastname: 1, email: 1}, (err, data) => {
+	Users.findOne({email: email}, {password: 1, role: 1, firstname: 1, lastname: 1, email: 1}, (err, data) => {
+		if(err) {
+			return cb(err, null);
+		} else {
+			return cb(null, data);
+		}
+	});
+};
+
+var getUsersByEmail = (email, cb) => {
+	Users.findOne({email: email}, {email: 1}, (err, data) => {
 		if(err) {
 			return cb(err, null);
 		} else {
@@ -48,7 +61,7 @@ var getUserByEmail = (email, cb) => {
 
 var createUser = (userData, cb) => {
 	var user = new Users(userData);
-	user.save((err, data) => {
+	user.save((err) => {
 		if(err) {
 			return cb(err);
 		} else {
@@ -58,9 +71,7 @@ var createUser = (userData, cb) => {
 };
 
 var deleteUser = (id, cb) => {
-
-	Users.deleteOne({_id: id}, (err) =>
-	{
+	Users.deleteOne({_id: id}, (err) =>	{
 		if(err) {
 			return cb(err);	
 		} else {
@@ -85,5 +96,6 @@ module.exports = {
 	createUser,
 	deleteUser,
 	updateById,
-	getUserByEmail
+	getUserByEmail,
+	getUsersByEmail
 };
