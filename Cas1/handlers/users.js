@@ -2,15 +2,17 @@ var users = require("../models/users");
 var bcrypt = require("bcryptjs");
 
 
-var getAllUsers = (req , res) => {
-	console.log("get all users")
-	users.getAllUsers((err, data) => {
+
+var getAllUsers = (req , res)=> {
+	users.getAllUsers((err , data)=>
+	{
 		if(err) {
 			res.send(err);
 		} else {
 			res.send(data);
 		}
 	});
+	
 };
 
 var getUsersByName = (req, res) => {
@@ -24,44 +26,47 @@ var getUsersByName = (req, res) => {
 	});
 }
 
-var getUsersByEmail = (req, res) => {
-	users.getUsersByEmail(req.body.email, (err, data) => {
-		if(err) {
-			res.send(err);
-		} else {
-			res.send(data);
-		}
-	});
-}
-
 
 var createUser = (req, res) => {
-	 
-	
-	var valid = req.body.firstname != "" && req.body.firstname != ""
-	 && req.body.lastname != "" && req.body.lastname != ""
-	 && req.body.email != "" && req.body.email != ""
+	var valid = req.body.firstname != undefined && req.body.firstname != ""
+	 && req.body.email != undefined && req.body.email != ""
+	 && req.body.lastname != undefined && req.body.lastname != ""
+	 && req.body.email != undefined && req.body.email != ""
 	 && req.body.password.length > 6 && req.body.password != undefined && req.body.password != "";
 	
-	 
-	if(valid && req.body.email != users.getUsersByEmail) {
-		console.log("Do tuka");	
-		bcrypt.hash(req.body.password, 10, (err, hash) => {
-			var userData = req.body
-			userData.password = hash;
-			userData.role = "user";
-			users.createUser(userData, (err) => {
-				if(err) {
-					res.send(err);
+	if(valid) {	
+		users.getUsersByEmail(req.body.email, (err, data) => {
+			console.log(req.body.email);
+			// console.log("TUka treba" + data.email);
+			if(err) {
+				res.send(err);
+			} else {
+				if(req.body.email != data.email) {
+					bcrypt.hash(req.body.password, 10, (err, hash) => {
+						 if(err) {
+							 res.send(err);
+						 } else {
+							var userData = req.body
+							userData.password = hash;
+							userData.role = "user";
+							users.createUser(userData, (err) => {
+								if(err) {
+									res.send(err);
+								} else {
+									res.status(201).send("Ok");
+								}
+							});
+						 }
+						
+					});
 				} else {
-					console.log("Vleguva")
-					res.send(201, "Ok");
+					res.send("The email is already taken!")
 				}
-			})
-		})	
-	}
-	else {
-		res.send(400, "Bad request");
+			}
+		});
+		
+	} else {
+		res.status(400).send("Bad request");
 	};
 	
 };
@@ -77,7 +82,7 @@ var deleteUser = (req, res) => {
 	});
 };
 
-var updateById = (req,res) =>{
+var updateById = (req,res) => {
 	var id = req.params.id;
 	var userData = req.body;
 	users.updateById(id, userData, (err) => {
@@ -94,7 +99,7 @@ module.exports = {
 	createUser,
 	deleteUser,
 	updateById,
-	getUsersByEmail
+	
 
 };
 

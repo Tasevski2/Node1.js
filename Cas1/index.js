@@ -35,13 +35,11 @@ app.put("/delete/user/id/:id", users.updateById);
 
 app.post("/create/user", users.createUser);
 
-app.post("/users/email", users.getUsersByEmail);
-
 
 
 app.use(function(err, req, res, next) {
 	if(err.name === "UnauthorizedError") {
-		res.send(401, "Invaild token");
+		res.status(401).send("Invaild token");
 	}
 });
 

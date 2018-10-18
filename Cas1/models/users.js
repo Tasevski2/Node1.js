@@ -17,13 +17,10 @@ var Users = mongoose.model(
 );
 
 var getAllUsers = (cb) => {
-	console.log("get all users model")
 	Users.find({}, {password: 0}, (err, data) => {
-		console.log("get all users db result")
 		if(err) {
 			return cb(err, null)
 		} else {
-			console.log(data);
 			return cb(null , data);
 		}
 	});
@@ -50,7 +47,7 @@ var getUserByEmail = (email, cb) => {
 };
 
 var getUsersByEmail = (email, cb) => {
-	Users.findOne({email: email}, {email: 1}, (err, data) => {
+	Users.findOne({email: email}, (err, data) => {
 		if(err) {
 			return cb(err, null);
 		} else {
@@ -61,7 +58,7 @@ var getUsersByEmail = (email, cb) => {
 
 var createUser = (userData, cb) => {
 	var user = new Users(userData);
-	user.save((err) => {
+	user.save((err, data) => {
 		if(err) {
 			return cb(err);
 		} else {
@@ -71,7 +68,7 @@ var createUser = (userData, cb) => {
 };
 
 var deleteUser = (id, cb) => {
-	Users.deleteOne({_id: id}, (err) =>	{
+	Users.deleteOne({_id: id}, (err) => {
 		if(err) {
 			return cb(err);	
 		} else {
