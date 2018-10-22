@@ -17,21 +17,21 @@ var createCv = (req, res) => {
 	var schema = {
 		first_name: {type: "string", empty: false},
 		last_name: {type: "string", empty: false},
-		birth_date: {type: "date", empty: false},
+		// birth_date: {type: "date", empty: false},
 		email: {type: "email", empty: false},
 		phone: {type: "number", empty: false},
 		education: {type: "object", props: {
 			school_name: {type: "string", empty: false},
 			level: {type: "string", empty: false},
-			degree: {type: "string", empty: false},
-			start_at: {type: "date", empty: false},
-			finish_at: {type: "date", empty: false}
+			degree: {type: "string", empty: false}
+			// start_at: {type: "date", empty: false},
+			// finish_at: {type: "date", empty: false}
 		}},
 		work_experience: {type: "object", props: {
 			job_title: {type: "string", empty: false},
-			company_name: {type: "string", empty: false},
-			start_at: {type: "date", empty: false},
-			finish_at: {type: "date", empty: false}
+			company_name: {type: "string", empty: false}
+			// start_at: {type: "date", empty: false},
+			// finish_at: {type: "date", empty: false}
 		}},
 		skills_interstes: {type: "object", props: {
 			main_skills: {type: "string", empty: false},

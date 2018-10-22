@@ -3,14 +3,13 @@ const options = {
   useNewUrlParser: true
 }
 
-var db = null;
 
 var Init = ()=>
 {
 	mongoose.connect("mongodb://127.0.0.1:27017/semos1", options)
 .then((conn) =>
 {
-	db = conn;
+	console.log("Connected to mongo");
 })
 .catch((err) =>
 {
@@ -18,17 +17,10 @@ var Init = ()=>
 });
 };
 
-var DB = () =>
-{	
-	if(db!=null)
-	return db;
-	else
-		console.error("No MongoDB connecton to return!");
-}
 
 
 module.exports =
 {
-	Init , 
-	DB
+	Init 
+
 };
