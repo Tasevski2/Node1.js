@@ -7,7 +7,7 @@ var db = null;
 
 var Init = ()=>
 {
-	mongoose.connect("mongodb://127.0.0.1:27017/semos1", options)
+	mongoose.connect("mongodb://127.0.0.1:27017/semos", options)
 .then((conn) =>
 {
 	db = conn;
