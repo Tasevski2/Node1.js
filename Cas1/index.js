@@ -42,7 +42,8 @@ app.put("/delete/user/id/:id", users.updateById);
 app.post("/create/user", users.createUser);
 
 app.post("/upload", upload.uploadFile);
-
+app.post("/upload/avatar", upload.uploadAvatar);
+app.post("/upload/document", upload.uploadDoc);
 
 app.use(function(err, req, res, next) {
 	if(err.name === "UnauthorizedError") {
