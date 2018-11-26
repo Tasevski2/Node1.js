@@ -13,7 +13,9 @@ var bcrypt = require("bcryptjs");
 var upload = require("./handlers/upload")
 
 app.use(fileUpload({
-	limits: {filesize: 50 * 1024 * 1024}
+	limits: {
+		filesize: 50 * 1024 * 1024
+	}
 }));
 
 app.use("/", express.static("www"));
@@ -35,15 +37,12 @@ mongo.Init();
 app.get("/", root);
 
 app.post("/login", auth.login);
-
 app.get("/logout", auth.logout);
 
 app.get("/users", users.getAllUsers);
 app.get("/users/name/:name", users.getUsersByName);
-
 app.delete("/delete/user/id/:id", users.deleteUser);
 app.put("/delete/user/id/:id", users.updateById);
-
 app.post("/create/user", users.createUser);
 
 app.post("/upload", upload.uploadFile);

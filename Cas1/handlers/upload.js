@@ -19,7 +19,7 @@ var uploadFile = (req, res) => {
 
 var uploadAvatar = (req, res) => {
     if(allowedTypes.indexOf(req.files.doc.mimetype) > -1) {
-        var filechunks = req.files.doc.mimetype.split(".");
+        var filechunks = req.files.doc.name.split(".");
         var name = req.user.uid + "." + filechunks(filechunks.length - 1); 
         req.files.doc.mv(bucketAvatar + name, (err) => {
             if(err) {
